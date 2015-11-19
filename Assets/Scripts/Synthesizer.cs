@@ -30,10 +30,10 @@ using System.Collections.Generic;
 public class Synthesizer : MonoBehaviour
 {
     #region Constants
-    public static double Threshold = 0.5;
-    public static float SoundThreshold = 0.00005f;
-    public static float DampSpeed = 0.87f;
-    private const double e = 2.7182818284590452353602874713526624977572470936999595;
+    public static double Threshold = 0.5;                                            //Tested as best value for the time being
+    public static float SoundThreshold = 0.00005f;                                   //Tested as best value for the time being
+    public static float DampSpeed = 0.87f;                                           //Tested as best value for the time being
+    private const double e = 2.7182818284590452353602874713526624977572470936999595; //Euler constant
     #endregion
 
     #region Public Variables
