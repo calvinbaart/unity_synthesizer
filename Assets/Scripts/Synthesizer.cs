@@ -439,23 +439,22 @@ public class Synthesizer : MonoBehaviour
     /// <returns></returns>
     protected static double Mix(double sample, double threshold)
     {
+        //-t <= x <= t
         if (-threshold <= sample && sample <= threshold)
         {
             return sample;
         }
 
         double v = 1.0 - threshold;
-
-        //-t <= x <= t
-        //x>=0: t + (v - v * e ^ (-1/v) ^ (x - t))
-        //x<0: -t - (v - v * e ^ (-1/v) ^ (-x - t))
-
+        
         if (sample >= 0)
         {
+            //t + (v - v * e ^ (-1/v) ^ (x - t))
             return threshold + (v - v * Math.Pow(Math.Pow(e, -1 / v), sample - threshold));
         }
         else
         {
+            //-t - (v - v * e ^ (-1/v) ^ (-x - t))
             return -threshold - (v - v * Math.Pow(Math.Pow(e, -1 / v), -sample - threshold));
         }
     }
