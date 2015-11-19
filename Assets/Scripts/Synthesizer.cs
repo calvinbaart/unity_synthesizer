@@ -57,10 +57,7 @@ public class Synthesizer : MonoBehaviour
     #region Private Variables
     private double dspTime = 0.0;
     private List<ClipInfo> clips;
-    private List<float> audioSamples;
-    private bool recording = false;
     private bool useMixing = true;
-    private string recordingOutputFile = "Recording.wav";
 
     private List<Instrument> instruments = new List<Instrument>(new Instrument[]{
         Instrument.AcousticGrandPiano
@@ -76,8 +73,6 @@ public class Synthesizer : MonoBehaviour
     void OnEnable()
     {
         clips = new List<ClipInfo>();
-        audioSamples = new List<float>();
-        recording = false;
 
         listStyle.normal.textColor = Color.white;
         listStyle.onHover.background = listStyle.hover.background = new Texture2D(2, 2);
@@ -293,9 +288,6 @@ public class Synthesizer : MonoBehaviour
 
         if (clips == null)
         {
-            if (recording)
-                audioSamples.AddRange(data);
-
             return;
         }
 
@@ -369,9 +361,6 @@ public class Synthesizer : MonoBehaviour
             data[j] = left;
             data[j + 1] = right;
         }
-
-        if (recording)
-            audioSamples.AddRange(data);
     }
 
     //The "Camiel" Mixing Formula
