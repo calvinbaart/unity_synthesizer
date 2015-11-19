@@ -65,6 +65,10 @@ public class Midi
         _synthesizer = synth;
     }
 
+    /// <summary>
+    ///  Verifies the midi header.
+    /// </summary>
+    /// <returns>Whether the midi header is valid or not.</returns>
     public bool Verify()
     {
         if (_isVerified)
@@ -100,6 +104,10 @@ public class Midi
         return true;
     }
 
+    /// <summary>
+    ///  Load the midi file.
+    /// </summary>
+    /// <returns>Whether the midi file loaded.</returns>
     public bool Load()
     {
         if (!Verify())
@@ -150,6 +158,10 @@ public class Midi
         return true;
     }
 
+    /// <summary>
+    ///  Step the midi file.
+    /// </summary>
+    /// <returns>Whether the midi file continued without errors.</returns>
     public bool Tick()
     {
         if (_format == Format.MultiTrackSync)
@@ -176,6 +188,11 @@ public class Midi
         return true;
     }
 
+    /// <summary>
+    ///  Tick the midi file for dt time.
+    /// </summary>
+    /// <param name="dt">DeltaTime between this call and the previous call.</param>
+    /// <returns>Whether the update succeeded</returns>
     public bool Update(double dt)
     {
         _time += dt;
@@ -191,18 +208,30 @@ public class Midi
         return true;
     }
 
+    /// <summary>
+    ///  Set the tempo of the playback.
+    /// </summary>
+    /// <param name="tempo">Tempo to change to</param>
     public void SetTempo(int tempo)
     {
         _tempo = tempo;
         _ppqnClock = (((double)tempo) / _division) * 0.000001;
     }
 
+    /// <summary>
+    ///  Get the Synthesizer
+    /// </summary>
+    /// <returns>The Synthesizer</returns>
     public Synthesizer GetSynthesizer()
     {
         return _synthesizer;
     }
 
     //http://www.midi.org/techspecs/midimessages.php
+    /// <summary>
+    ///  Loads the current MidiTrack from the Midi file.
+    /// </summary>
+    /// <returns>The loaded MidiTrack</returns>
     private MidiTrack LoadTrackChunk()
     {
         MidiTrack track = new MidiTrack(this);
@@ -288,6 +317,11 @@ public class Midi
         return track;
     }
 
+    /// <summary>
+    ///  Read a variable length value from the midi file.
+    /// </summary>
+    /// <param name="numBytes">number of bytes read for the variable length value.</param>
+    /// <returns>the variable length value</returns>
     private uint ReadVariableLengthValue(out int numBytes)
     {
         uint ret = 0;
@@ -306,11 +340,19 @@ public class Midi
         return ret;
     }
 
+    /// <summary>
+    ///  Reads a 32-bit integer from the midi file.
+    /// </summary>
+    /// <returns>The value read</returns>
     private int ReadInt32()
     {
         return Util.ConvertToLittle(_reader.ReadInt32());
     }
 
+    /// <summary>
+    ///  Reads a 16-bit integer from the midi file.
+    /// </summary>
+    /// <returns>The value read</returns>
     private short ReadInt16()
     {
         return Util.ConvertToLittle(_reader.ReadInt16());

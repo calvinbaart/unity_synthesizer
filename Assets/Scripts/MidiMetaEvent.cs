@@ -36,14 +36,17 @@ public class MidiMetaEvent : MidiEvent
 
     public MidiMetaEvent(uint time, int type, byte[] bytes, Midi midi, MidiTrack track)
     {
-        this.Time = time;
-        this.Type = type;
-        this.Bytes = bytes;
+        Time = time;
+        Type = type;
+        Bytes = bytes;
 
-        this.Midi = midi;
-        this.Track = track;
+        Midi = midi;
+        Track = track;
     }
 
+    /// <summary>
+    ///  Executes the meta event.
+    /// </summary>
     public void Execute()
     {
         switch (Type)

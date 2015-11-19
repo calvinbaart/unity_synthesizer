@@ -44,6 +44,9 @@ public class MidiSoundPack : MonoBehaviour
     private float[][][] SampleData;
     private int[][] SampleStopIndex;
 
+    /// <summary>
+    ///  Called by Unity on Start of the Component. Load and cache the processed sample data.
+    /// </summary>
     public void Start()
     {
         Notes = new AudioClip[][] { C, DB, D, EB, E, F, GB, G, AB, A, BB, B };
@@ -84,6 +87,14 @@ public class MidiSoundPack : MonoBehaviour
         }
     }
 
+    /// <summary>
+    ///  Called by the application when a sound sample for a specific note & octave is requested.
+    /// </summary>
+    /// <param name="note">The note to request the data for</param>
+    /// <param name="octave">The octave to request the data for</param>
+    /// <param name="channel">The channel on which this sample will be active</param>
+    /// <param name="velocity">The velocity of the key press for this sample</param>
+    /// <returns>a new ClipInfo instance containing the correct data or null</returns>
     public ClipInfo GetSampleData(int note, int octave, int channel, float velocity)
     {
         if (SampleData[note].Length <= octave)

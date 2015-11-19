@@ -70,6 +70,9 @@ public class Synthesizer : MonoBehaviour
     #endregion
 
     #region Unity Built-ins
+    /// <summary>
+    ///  Called by Unity when the Component is enabled. This function initializes the AudioChannels and sets up the UI style.
+    /// </summary>
     void OnEnable()
     {
         clips = new List<ClipInfo>();
@@ -98,6 +101,9 @@ public class Synthesizer : MonoBehaviour
         };
 	}
 
+    /// <summary>
+    ///  Called by Unity when the Component should render the UI.
+    /// </summary>
     protected void OnGUI()
     {
         float x = 10;
@@ -137,6 +143,14 @@ public class Synthesizer : MonoBehaviour
     #endregion
 
     #region Setters
+    /// <summary>
+    ///  Called by the application to set the properties of a specific note & octave.
+    /// </summary>
+    /// <param name="channelIndex">The channel to apply the change to. (range: 0-16)</param>
+    /// <param name="note">The note to apply the change to.</param>
+    /// <param name="octave">The octave to apply the change to.</param>
+    /// <param name="velocity">The velocity of the key press. (Only applicable when on = true).</param>
+    /// <param name="on">Determines wether the note is on or off.</param>
     public void SetNote(int channelIndex, int note, int octave, float velocity, bool on)
     {
         AudioChannel channel = channels[channelIndex];
@@ -177,6 +191,12 @@ public class Synthesizer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    ///  Called by the applicatiion to set the volume of a specific channel.
+    /// </summary>
+    /// <param name="channelIndex">The channel to apply the change to. (range: 0-16)</param>
+    /// <param name="volume">Volume of the channel</param>
+    /// <param name="isFine">Determines if the volume set is the coarse or fine volume.</param>
     public void SetVolume(int channelIndex, int volume, bool isFine)
     {
         AudioChannel c = channels[channelIndex];
@@ -189,6 +209,12 @@ public class Synthesizer : MonoBehaviour
         CalculateVolume(channelIndex);
     }
 
+    /// <summary>
+    ///  Called by the application to set the expression of a specific channel.
+    /// </summary>
+    /// <param name="channelIndex">The channel to apply the change to. (range: 0-16)</param>
+    /// <param name="expression">Expression of the channel</param>
+    /// <param name="isFine">Determines if the expression set is the coarse or fine expression.</param>
     public void SetExpression(int channelIndex, int expression, bool isFine)
     {
         AudioChannel c = channels[channelIndex];
@@ -201,6 +227,12 @@ public class Synthesizer : MonoBehaviour
         CalculateVolume(channelIndex);
     }
 
+    /// <summary>
+    ///  Called by the application to set the pan of a specific channel.
+    /// </summary>
+    /// <param name="channelIndex">The channel to apply the change to. (range: 0-16)</param>
+    /// <param name="pan">Pan of the channel</param>
+    /// <param name="isFine">Determines if the pan set is the coarse or fine pan.</param>
     public void SetPan(int channelIndex, int pan, bool isFine)
     {
         AudioChannel c = channels[channelIndex];
@@ -211,24 +243,44 @@ public class Synthesizer : MonoBehaviour
             c.finePan = pan;
     }
 
+    /// <summary>
+    ///  Called by the application to set the reverb of a specific channel.
+    /// </summary>
+    /// <param name="channelIndex">The channel to apply the change to. (range: 0-16)</param>
+    /// <param name="reverb">Reverb of the channel</param>
     public void SetReverb(int channelIndex, int reverb)
     {
         AudioChannel c = channels[channelIndex];
         c.SetReverb(reverb / 127.0f);
     }
 
+    /// <summary>
+    ///  Called by the application to set the sustain of a specific channel.
+    /// </summary>
+    /// <param name="channelIndex">The channel to apply the change to. (range: 0-16)</param>
+    /// <param name="sustain">Sustain of the channel</param>
     public void SetSustain(int channelIndex, bool sustain)
     {
         AudioChannel c = channels[channelIndex];
         c.sustain = sustain;
     }
 
+    /// <summary>
+    ///  Called by the application to set the Pitch bend of a specific channel.
+    /// </summary>
+    /// <param name="channelIndex">The channel to apply the change to. (range: 0-16)</param>
+    /// <param name="bend">Bend of the channel</param>
     public void SetPitchBend(int channelIndex, int bend)
     {
         AudioChannel c = channels[channelIndex];
         c.pitchBend = bend / 16384.0f;
     }
 
+    /// <summary>
+    ///  Called by the application to set the Instrument of a specific channel
+    /// </summary>
+    /// <param name="channelIndex">The channel to apply the change to. (range: 0-16)</param>
+    /// <param name="instrument">Instrument of the channel</param>
     public void SetInstrument(int channelIndex, Instrument instrument)
     {
         AudioChannel c = channels[channelIndex];
@@ -242,6 +294,10 @@ public class Synthesizer : MonoBehaviour
     #endregion
 
     #region Misc
+    /// <summary>
+    ///  Calculates the actual volume of the channel based on the volume and expression (both coarse and fine)
+    /// </summary>
+    /// <param name="channelIndex">The channel to apply the change to. (range: 0-16)</param>
     public void CalculateVolume(int channelIndex)
     {
         AudioChannel c = channels[channelIndex];
@@ -252,12 +308,18 @@ public class Synthesizer : MonoBehaviour
         c.volume = calculatedVolume;
     }
     
+    /// <summary>
+    ///  Called by the Synthesizer when the Synthesizer starts playing.
+    /// </summary>
     public void StartPlaying()
     {
         if (OnStartedPlaying != null)
             OnStartedPlaying();
     }
 
+    /// <summary>
+    ///  Called by the Synthesizer when the Synthesizer stops playing.
+    /// </summary>
     public void StopPlaying()
     {
         if (OnStoppedPlaying != null)
@@ -273,6 +335,12 @@ public class Synthesizer : MonoBehaviour
     #endregion
 
     #region Audio Processing
+    /// <summary>
+    ///  Called by unity when new audio data is requested. This function processes active audio clips, puts them in the correct channel and applies dampening and volume changes
+    ///  to the channel.
+    /// </summary>
+    /// <param name="data">Buffer to write the new audio data to</param>
+    /// <param name="channels">Number of channels to request data for</param>
     protected void OnAudioFilterRead(float[] data, int channels)
     {
         double dt = AudioSettings.dspTime - dspTime;
@@ -363,27 +431,32 @@ public class Synthesizer : MonoBehaviour
         }
     }
 
-    //The "Camiel" Mixing Formula
-    protected static double Mix(double x, double t)
+    /// <summary>
+    ///  Mixing formula developed by Camiel. This function makes sure the audio sample stays within the -t/t range.
+    /// </summary>
+    /// <param name="sample"></param>
+    /// <param name="threshold"></param>
+    /// <returns></returns>
+    protected static double Mix(double sample, double threshold)
     {
-        if (-t <= x && x <= t)
+        if (-threshold <= sample && sample <= threshold)
         {
-            return x;
+            return sample;
         }
 
-        double v = 1.0 - t;
+        double v = 1.0 - threshold;
 
         //-t <= x <= t
         //x>=0: t + (v - v * e ^ (-1/v) ^ (x - t))
         //x<0: -t - (v - v * e ^ (-1/v) ^ (-x - t))
 
-        if (x >= 0)
+        if (sample >= 0)
         {
-            return t + (v - v * Math.Pow(Math.Pow(e, -1 / v), x - t));
+            return threshold + (v - v * Math.Pow(Math.Pow(e, -1 / v), sample - threshold));
         }
         else
         {
-            return -t - (v - v * Math.Pow(Math.Pow(e, -1 / v), -x - t));
+            return -threshold - (v - v * Math.Pow(Math.Pow(e, -1 / v), -sample - threshold));
         }
     }
     #endregion

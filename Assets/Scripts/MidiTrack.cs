@@ -38,11 +38,19 @@ public class MidiTrack
         Name = "Track" + GetHashCode();
     }
 
+    /// <summary>
+    ///  Called by Midi to add an event to the MidiTrack.
+    /// </summary>
+    /// <param name="evt">The event to add</param>
     public void AddEvent(MidiEvent evt)
     {
         _events.Add(evt);
     }
 
+    /// <summary>
+    ///  Called by Midi to tick the MidiTrack.
+    /// </summary>
+    /// <returns>Whether the tick succeeded or failed</returns>
     public bool Tick()
     {
         _tick++;

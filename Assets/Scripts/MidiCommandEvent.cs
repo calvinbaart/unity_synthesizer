@@ -33,31 +33,39 @@ public class MidiCommandEvent : MidiEvent
 
     public Midi Midi;
     public MidiTrack Track;
-
+    
     public MidiCommandEvent(uint time, int command, int channel, byte[] args, Midi midi, MidiTrack track)
     {
-        int note = args[0] % 12;
-        int octave = (args[0] - note) / 11;
+        Time = time;
+        Command = command;
+        Channel = channel;
+        Args = args;
 
-        this.Time = time;
-        this.Command = command;
-        this.Channel = channel;
-        this.Args = args;
-
-        this.Midi = midi;
-        this.Track = track;
+        Midi = midi;
+        Track = track;
     }
 
+    /// <summary>
+    ///  Gets the event type
+    /// </summary>
+    /// <returns>The event type</returns>
     public MidiEventType GetEventType()
     {
         return MidiEventType.CommandEvent;
     }
 
+    /// <summary>
+    ///  Gets the time to execute this event.
+    /// </summary>
+    /// <returns></returns>
     public uint GetTime()
     {
         return Time;
     }
 
+    /// <summary>
+    ///  Executes the event
+    /// </summary>
     public void Execute()
     {
         string[] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };

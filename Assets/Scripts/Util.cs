@@ -26,6 +26,11 @@ using System;
 
 public static class Util
 {
+    /// <summary>
+    ///  Convert a 16-bit value to LittleEndian
+    /// </summary>
+    /// <param name="val">The value to convert</param>
+    /// <returns>The converted value</returns>
     public static short ConvertToLittle(short val)
     {
         byte[] intAsBytes = BitConverter.GetBytes(val);
@@ -35,6 +40,11 @@ public static class Util
         return BitConverter.ToInt16(intAsBytes, 0);
     }
 
+    /// <summary>
+    ///  Convert a 32-bit value to LittleEndian
+    /// </summary>
+    /// <param name="val">The value to convert</param>
+    /// <returns>The converted value</returns>
     public static int ConvertToLittle(int val)
     {
         byte[] intAsBytes = BitConverter.GetBytes(val);
