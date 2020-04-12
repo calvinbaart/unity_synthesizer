@@ -122,7 +122,7 @@ public class Synthesizer : MonoBehaviour
             {
                 string fileName = comboBoxList[selectedItemIndex].text;
 
-                TextAsset asset = Resources.Load<TextAsset>("Midis/" + fileName.Substring(0, fileName.LastIndexOf(".")));
+                TextAsset asset = Resources.Load<TextAsset>("Midis/" + fileName);
                 Stream s = new MemoryStream(asset.bytes);
                 BinaryReader br = new BinaryReader(s);
 

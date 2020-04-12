@@ -40,17 +40,12 @@ public class MenuItems
         info.Select(f => f.FullName).ToArray();
 
         List<GUIContent> content = new List<GUIContent>();
-        foreach (FileInfo f in info)
-        {
-            string file = f.Name;
-            content.Add(new GUIContent(file));
-        }
 
         info = dir.GetFiles("*.bytes");
         info.Select(f => f.FullName).ToArray();
         foreach (FileInfo f in info)
         {
-            string file = f.Name;
+            string file = f.Name.Substring(0, f.Name.LastIndexOf("."));
             content.Add(new GUIContent(file));
         }
 
